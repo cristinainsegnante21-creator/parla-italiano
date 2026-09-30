@@ -634,7 +634,13 @@ function showNewBaristaTurn() {
 
   speakButton.disabled =
     false;
+  
+  /* Il barista parla automaticamente */
 
+  setTimeout(function() {
+    speakText(currentBaristaSpeech);
+  }, 300);
+  
 }
 
 
