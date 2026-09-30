@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parla Italiano - Al bar</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f3ec;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 5px 0;
+      color: #5b351c;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 18px;
+    }
+
+    .barista {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      font-size: 55px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .speaker {
+      font-weight: bold;
+      color: #8a4b20;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .question {
+      font-size: 25px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .button {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 20px;
+      font-size: 23px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #speakButton {
+      background: #287a4b;
+      color: white;
+    }
+
+    #speakButton:active {
+      transform: scale(0.98);
+    }
+
+    #helpButton {
+      background: #f0d36a;
+      color: #493d00;
+      font-size: 19px;
+    }
+
+    .status {
+      text-align: center;
+      min-height: 30px;
+      margin: 15px 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .you {
+      background: #e5f3e9;
+      border-radius: 15px;
+      padding: 18px;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .you-title {
+      font-weight: bold;
+      color: #287a4b;
+      margin-bottom: 8px;
+    }
+
+    #transcript {
+      font-size: 20px;
+    }
+
+    .help {
+      background: #fff8d9;
+      border-radius: 15px;
+      padding: 18px;
+      margin-top: 15px;
+      display: none;
+      font-size: 19px;
+    }
+
+    .next {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    .next-title {
+      font-weight: bold;
+      color: #8a4b20;
+      margin-bottom: 10px;
+    }
+
+    #nextQuestion {
+      font-size: 22px;
+      line-height: 1.4;
+    }
+
+    .small {
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+      <div style="font-size:45px;">☕</div>
+      <h1>AL BAR</h1>
+      <div class="subtitle">Parla italiano!</div>
+    </header>
+
+    <div class="barista">
+
+      <div class="avatar">👩‍🍳</div>
+
+      <div class="speaker">
+        BARISTA
+      </div>
+
+      <div class="question">
+        Buongiorno! Cosa desidera?
+      </div>
+
+    </div>
+
+    <div class="status" id="status">
+      Tocca il pulsante e parla.
+    </div>
+
+    <button class="button" id="speakButton">
+      🎙️ PARLA
+    </button>
+
+    <div class="you" id="youBox">
+      <div class="you-title">🗣️ HAI DETTO:</div>
+      <div id="transcript"></div>
+    </div>
+
+    <div class="help" id="helpBox">
+      💡 <strong>Puoi dire:</strong><br><br>
+      «Vorrei un caffè, per favore.»
+    </div>
+
+    <button class="button" id="helpButton">
+      🆘 AIUTO
+    </button>
+
+    <div class="next" id="nextBox">
+
+      <div class="next-title">
+        👩‍🍳 BARISTA
+      </div>
+
+      <div id="nextQuestion">
+        Va bene! Ecco il suo caffè. Desidera anche qualcosa da mangiare?
+      </div>
+
+    </div>
+
+    <div class="small">
+      Non preoccuparti degli errori 😊<br>
+      Prova a parlare!
+    </div>
+
+  </div>
+
+<script>
+
+  const speakButton = document.getElementById("speakButton");
+  const status = document.getElementById("status");
+  const transcript = document.getElementById("transcript");
+  const youBox = document.getElementById("youBox");
+  const helpButton = document.getElementById("helpButton");
+  const helpBox = document.getElementById("helpBox");
+  const nextBox = document.getElementById("nextBox");
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+
+    status.innerHTML =
+      "⚠️ Il riconoscimento vocale non è disponibile in questo browser.";
+
+    speakButton.disabled = true;
+    speakButton.style.background = "#999";
+
+  } else {
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "it-IT";
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    speakButton.addEventListener("click", () => {
+
+      youBox.style.display = "none";
+      nextBox.style.display = "none";
+      helpBox.style.display = "none";
+
+      status.innerHTML = "🔴 Ti ascolto...";
+
+      speakButton.innerHTML = "🔴 STO ASCOLTANDO";
+
+      recognition.start();
+
+    });
+
+    recognition.onresult = (event) => {
+
+      const text =
+        event.results[0][0].transcript;
+
+      transcript.innerText = text;
+
+      youBox.style.display = "block";
+
+      status.innerHTML = "✅ Bene!";
+
+      speakButton.innerHTML = "🎙️ PARLA DI NUOVO";
+
+      nextBox.style.display = "block";
+
+    };
+
+    recognition.onerror = (event) => {
+
+      status.innerHTML =
+        "❌ Non ho sentito. Prova ancora.";
+
+      speakButton.innerHTML = "🎙️ PARLA";
+
+    };
+
+    recognition.onend = () => {
+
+      speakButton.innerHTML = "🎙️ PARLA";
+
+    };
+  }
+
+  helpButton.addEventListener("click", () => {
+
+    if (helpBox.style.display === "block") {
+
+      helpBox.style.display = "none";
+
+    } else {
+
+      helpBox.style.display = "block";
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
