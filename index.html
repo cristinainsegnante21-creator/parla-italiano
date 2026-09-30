@@ -10,275 +10,148 @@
 
 <title>Al Bar - Parla Italiano</title>
 
-
 <style>
 
 body {
-
-  font-family:
-    Arial,
-    sans-serif;
-
-  background:
-    #f5f1e8;
-
+  font-family: Arial, sans-serif;
+  background: #f5f1e8;
   margin: 0;
-
   padding: 0;
-
   color: #333;
-
 }
-
 
 header {
-
-  background:
-    #6f4e37;
-
+  background: #6f4e37;
   color: white;
-
   text-align: center;
-
   padding: 18px;
-
 }
-
 
 header h1 {
-
   margin: 0;
-
   font-size: 26px;
-
 }
-
 
 header p {
-
   margin: 6px 0 0;
-
   font-size: 15px;
-
 }
-
 
 .container {
-
   max-width: 600px;
-
   margin: auto;
-
   padding: 20px;
-
 }
-
 
 .barista {
-
   background: white;
-
   border-radius: 20px;
-
   padding: 20px;
-
   text-align: center;
-
-  box-shadow:
-    0 3px 10px
-    rgba(0,0,0,0.1);
-
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
-
 
 .face {
-
   font-size: 70px;
-
 }
-
 
 .label {
-
   font-size: 13px;
-
   color: #777;
-
   margin-bottom: 8px;
-
 }
-
 
 .barista-speech {
-
   font-size: 22px;
-
   line-height: 1.4;
-
   margin: 10px 0 15px;
-
 }
-
 
 button {
-
   border: none;
-
   border-radius: 14px;
-
   padding: 15px 20px;
-
   font-size: 18px;
-
   cursor: pointer;
-
 }
-
 
 .listen {
-
-  background:
-    #eee;
-
+  background: #eee;
   color: #333;
-
 }
-
 
 .speak {
-
   width: 100%;
-
   margin-top: 20px;
-
-  background:
-    #2e7d32;
-
+  background: #2e7d32;
   color: white;
-
   font-weight: bold;
-
 }
-
 
 .status {
-
   text-align: center;
-
   margin: 15px 0;
-
   font-size: 16px;
-
 }
-
 
 .student-box {
-
   background: white;
-
   border-radius: 15px;
-
   padding: 15px;
-
   margin-top: 15px;
-
   display: none;
-
 }
-
 
 .student-title {
-
   font-size: 13px;
-
   color: #777;
-
   margin-bottom: 5px;
-
 }
-
 
 .student-text {
-
   font-size: 20px;
-
 }
-
 
 .help-button {
-
   width: 100%;
-
   margin-top: 15px;
-
-  background:
-    #ff9800;
-
+  background: #ff9800;
   color: white;
-
   font-weight: bold;
-
   display: none;
-
 }
-
 
 .help-box {
-
-  background:
-    #fff3cd;
-
+  background: #fff3cd;
   border-radius: 15px;
-
   padding: 15px;
-
   margin-top: 10px;
-
   display: none;
-
 }
-
 
 .help-title {
-
   font-weight: bold;
-
   margin-bottom: 10px;
-
 }
-
 
 .help-text {
-
   font-size: 20px;
-
   margin-bottom: 12px;
-
 }
-
 
 .feedback {
-
   background: white;
-
   border-radius: 15px;
-
   padding: 15px;
-
   margin-top: 15px;
-
   display: none;
-
 }
-
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -289,11 +162,12 @@ button {
 </header>
 
 
-
 <div class="container">
 
 
-  <!-- BARISTA -->
+  <!-- ============================
+       BARISTA
+  ============================ -->
 
   <div class="barista">
 
@@ -324,8 +198,9 @@ button {
   </div>
 
 
-
-  <!-- STATO -->
+  <!-- ============================
+       STATO
+  ============================ -->
 
   <div
     id="status"
@@ -336,8 +211,9 @@ button {
   </div>
 
 
-
-  <!-- STUDENTE -->
+  <!-- ============================
+       RISPOSTA STUDENTE
+  ============================ -->
 
   <div
     id="studentBox"
@@ -355,8 +231,9 @@ button {
   </div>
 
 
-
-  <!-- AIUTO -->
+  <!-- ============================
+       AIUTO
+  ============================ -->
 
   <button
     id="helpButton"
@@ -365,7 +242,6 @@ button {
     🆘 AIUTO
 
   </button>
-
 
 
   <div
@@ -392,22 +268,22 @@ button {
   </div>
 
 
-
-  <!-- FEEDBACK -->
+  <!-- ============================
+       FEEDBACK
+  ============================ -->
 
   <div
     id="feedbackBox"
     class="feedback">
 
-    <div
-      id="feedbackText">
-    </div>
+    <div id="feedbackText"></div>
 
   </div>
 
 
-
-  <!-- PARLA -->
+  <!-- ============================
+       PARLA
+  ============================ -->
 
   <button
     id="speakButton"
@@ -421,140 +297,84 @@ button {
 </div>
 
 
-
 <script>
 
 
 /* ============================
-   ELEMENTI DELLA PAGINA
+   ELEMENTI
 ============================ */
 
-
 const baristaFace =
-  document.getElementById(
-    "baristaFace"
-  );
-
+  document.getElementById("baristaFace");
 
 const baristaSpeech =
-  document.getElementById(
-    "baristaSpeech"
-  );
-
+  document.getElementById("baristaSpeech");
 
 const listenButton =
-  document.getElementById(
-    "listenButton"
-  );
-
+  document.getElementById("listenButton");
 
 const speakButton =
-  document.getElementById(
-    "speakButton"
-  );
-
+  document.getElementById("speakButton");
 
 const status =
-  document.getElementById(
-    "status"
-  );
-
+  document.getElementById("status");
 
 const studentBox =
-  document.getElementById(
-    "studentBox"
-  );
-
+  document.getElementById("studentBox");
 
 const transcript =
-  document.getElementById(
-    "transcript"
-  );
-
+  document.getElementById("transcript");
 
 const helpButton =
-  document.getElementById(
-    "helpButton"
-  );
-
+  document.getElementById("helpButton");
 
 const helpBox =
-  document.getElementById(
-    "helpBox"
-  );
-
+  document.getElementById("helpBox");
 
 const helpText =
-  document.getElementById(
-    "helpText"
-  );
-
+  document.getElementById("helpText");
 
 const helpListenButton =
-  document.getElementById(
-    "helpListenButton"
-  );
-
+  document.getElementById("helpListenButton");
 
 const feedbackBox =
-  document.getElementById(
-    "feedbackBox"
-  );
-
+  document.getElementById("feedbackBox");
 
 const feedbackText =
-  document.getElementById(
-    "feedbackText"
-  );
-
+  document.getElementById("feedbackText");
 
 
 /* ============================
    VARIABILI
 ============================ */
 
-
 let currentBaristaSpeech =
   "Buongiorno! Cosa desidera?";
 
-
 let currentHelpText =
   "Vorrei un caffè, per favore.";
-
 
 
 /* ============================
    SINTESI VOCALE
 ============================ */
 
-
 function speakText(text) {
 
-  if (
-    !("speechSynthesis" in window)
-  ) {
-
+  if (!("speechSynthesis" in window)) {
     return;
-
   }
-
 
   speechSynthesis.cancel();
 
-
   const utterance =
-    new SpeechSynthesisUtterance(
-      text
-    );
-
+    new SpeechSynthesisUtterance(text);
 
   utterance.lang =
     "it-IT";
 
-
   utterance.rate =
     0.85;
-
 
   speechSynthesis.speak(
     utterance
@@ -563,11 +383,9 @@ function speakText(text) {
 }
 
 
-
 /* ============================
    ASCOLTA BARISTA
 ============================ */
-
 
 listenButton.addEventListener(
   "click",
@@ -581,11 +399,9 @@ listenButton.addEventListener(
 );
 
 
-
 /* ============================
    ASCOLTA AIUTO
 ============================ */
-
 
 helpListenButton.addEventListener(
   "click",
@@ -599,11 +415,9 @@ helpListenButton.addEventListener(
 );
 
 
-
 /* ============================
    RICONOSCIMENTO VOCALE
 ============================ */
-
 
 const SpeechRecognition =
   window.SpeechRecognition ||
@@ -623,62 +437,47 @@ if (!SpeechRecognition) {
 
 } else {
 
-
   const recognition =
     new SpeechRecognition();
-
 
   recognition.lang =
     "it-IT";
 
-
   recognition.interimResults =
     false;
 
-
   recognition.continuous =
     false;
-
 
 
   /* ============================
      QUANDO LO STUDENTE PREME PARLA
   ============================ */
 
-
   speakButton.addEventListener(
     "click",
     () => {
 
-
-      /*
-       * Prima di un nuovo tentativo
-       * nascondiamo l'aiuto precedente.
-       */
+      /* Nascondiamo l'aiuto
+         del turno precedente */
 
       helpButton.style.display =
         "none";
 
-
       helpBox.style.display =
         "none";
-
 
       feedbackBox.style.display =
         "none";
 
-
       studentBox.style.display =
         "none";
-
 
       status.innerHTML =
         "🔴 Ti ascolto...";
 
-
       speakButton.innerHTML =
         "🔴 STO ASCOLTANDO";
-
 
       try {
 
@@ -694,73 +493,46 @@ if (!SpeechRecognition) {
   );
 
 
-
   /* ============================
      RISULTATO
   ============================ */
 
-
   recognition.onresult =
     (event) => {
-
 
       const text =
         event.results[0][0].transcript;
 
-
       transcript.innerText =
         text;
-
 
       studentBox.style.display =
         "block";
 
-
-      speakButton.innerHTML =
-        "🎙️ PARLA DI NUOVO";
-
-
       status.innerHTML =
         "✅ Hai parlato!";
 
-
       /*
-       * Prima facciamo rispondere
-       * il barista.
+       * Il barista analizza
+       * quello che ha detto
+       * lo studente.
        */
 
-      analyseResponse(
-        text
-      );
-
-
-      /*
-       * SOLO DOPO che lo studente
-       * ha parlato e il barista
-       * ha risposto, compare AIUTO.
-       */
-
-      helpButton.style.display =
-        "block";
-
+      analyseResponse(text);
 
     };
-
 
 
   /* ============================
      ERRORI
   ============================ */
 
-
   recognition.onerror =
     (event) => {
-
 
       console.log(
         event.error
       );
-
 
       if (
         event.error ===
@@ -770,9 +542,7 @@ if (!SpeechRecognition) {
         status.innerHTML =
           "⚠️ Controlla il permesso del microfono.";
 
-      }
-
-      else if (
+      } else if (
         event.error ===
         "no-speech"
       ) {
@@ -780,85 +550,62 @@ if (!SpeechRecognition) {
         status.innerHTML =
           "👂 Non ho sentito. Prova ancora.";
 
-      }
-
-      else {
+      } else {
 
         status.innerHTML =
           "❌ Non ho sentito. Prova ancora.";
 
       }
 
-
       speakButton.innerHTML =
         "🎙️ PARLA";
 
-
     };
-
 
 
   recognition.onend =
     () => {
 
       speakButton.innerHTML =
-        "🎙️ PARLA DI NUOVO";
+        "🎙️ PARLA";
 
     };
 
-
 }
-
 
 
 /* ============================
    SIMULAZIONE DEL BARISTA
 ============================ */
 
-
 function analyseResponse(text) {
-
 
   const lower =
     text.toLowerCase();
 
 
-  /*
-   * Parole che indicano
-   * una richiesta comprensibile.
-   */
+  /* Parole che indicano
+     una richiesta comprensibile */
 
   const understoodWords = [
 
     "caffè",
-
     "cappuccino",
-
     "cornetto",
-
     "acqua",
-
     "latte",
-
     "tè",
-
     "the",
-
     "vorrei",
-
     "prendo",
-
     "voglio",
-
     "desidero"
 
   ];
 
 
-
   let understood =
     false;
-
 
 
   for (
@@ -866,7 +613,6 @@ function analyseResponse(text) {
     i < understoodWords.length;
     i++
   ) {
-
 
     if (
       lower.includes(
@@ -884,120 +630,99 @@ function analyseResponse(text) {
   }
 
 
-
-  /*
-   * Se il barista capisce:
-   */
+  /* ============================
+     BARISTA CAPISCE
+  ============================ */
 
   if (understood) {
-
 
     baristaFace.innerHTML =
       "😊";
 
-
     currentBaristaSpeech =
       "Certo! Ecco a lei. Desidera anche qualcosa da mangiare?";
 
-
     baristaSpeech.innerText =
       currentBaristaSpeech;
-
 
     feedbackText.innerHTML =
       "Bene! Il barista ha capito. 👍";
 
-
     feedbackBox.style.display =
       "block";
-
 
     currentHelpText =
       "Sì, vorrei anche un cornetto, per favore.";
 
-
-    /*
-     * Il barista parla automaticamente.
-     */
-
-    speakText(
-      currentBaristaSpeech
-    );
-
-
   }
 
 
-
-  /*
-   * Se il barista non capisce:
-   */
+  /* ============================
+     BARISTA NON CAPISCE
+  ============================ */
 
   else {
-
 
     baristaFace.innerHTML =
       "🤔";
 
-
     currentBaristaSpeech =
       "Mi scusi, non ho capito. Può ripetere, per favore?";
-
 
     baristaSpeech.innerText =
       currentBaristaSpeech;
 
-
     feedbackText.innerHTML =
       "Prova a ripetere la frase con calma.";
-
 
     feedbackBox.style.display =
       "block";
 
-
     currentHelpText =
       "Vorrei un caffè, per favore.";
 
-
-    /*
-     * Il barista parla automaticamente.
-     */
-
-    speakText(
-      currentBaristaSpeech
-    );
-
   }
 
-}
 
+  /*
+   * IMPORTANTE:
+   * l'aiuto compare SOLO
+   * dopo che il barista
+   * ha preparato la risposta.
+   */
+
+  setTimeout(
+    () => {
+
+      helpButton.style.display =
+        "block";
+
+    },
+    300
+  );
+
+}
 
 
 /* ============================
    PULSANTE AIUTO
 ============================ */
 
-
 helpButton.addEventListener(
   "click",
   () => {
 
-
     helpText.innerText =
       currentHelpText;
 
-
     helpBox.style.display =
       "block";
-
 
   }
 );
 
 
 </script>
-
 
 </body>
 
