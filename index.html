@@ -539,6 +539,9 @@ if (!SpeechRecognition) {
 
 function analyseResponse(text) {
 
+  helpButton.style.display = "none";
+  helpBox.style.display = "none";
+
   const lower =
     text.toLowerCase();
 
