@@ -524,6 +524,11 @@ async function askBarista(studentMessage) {
             "Rispondi come un barista italiano gentile. " +
             "Usa un italiano semplice, naturale e adatto a uno studente. " +
             "Continua la conversazione in modo coerente. " +
+            "Se la frase dello studente contiene una parola poco chiara, insolita o probabilmente pronunciata male, NON bloccarti e NON inventare il significato. " +
+            "Chiedi semplicemente: 'Mi scusi, non ho capito. Può ripetere, per favore?' " +
+            "Se capisci abbastanza bene il significato, continua normalmente la conversazione. " +
+            "Se correggi una parola, fallo molto brevemente e poi continua. " +
+            "NON usare asterischi, markdown, virgolette speciali o simboli per evidenziare le parole. " +
             "Non dare spiegazioni grammaticali lunghe. " +
             "Rispondi in modo breve, come farebbe un vero barista."
         })
@@ -540,8 +545,13 @@ async function askBarista(studentMessage) {
     }
 
 
-    const reply =
+    let reply =
       await response.text();
+
+reply = reply
+  .replace(/\*\*/g, "")
+  .replace(/\*/g, "")
+  .trim();
 
 
     return reply.trim();
