@@ -95,6 +95,14 @@
       font-size: 19px;
     }
 
+    .listenButton {
+      background: #3978b8;
+      color: white;
+      font-size: 19px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
     .status {
       text-align: center;
       min-height: 30px;
@@ -161,70 +169,123 @@
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <header>
-      <div style="font-size:45px;">☕</div>
-      <h1>AL BAR</h1>
-      <div class="subtitle">Parla italiano!</div>
-    </header>
+  <header>
+    <div style="font-size:45px;">☕</div>
+    <h1>AL BAR</h1>
+    <div class="subtitle">Parla italiano!</div>
+  </header>
 
-    <div class="barista">
+  <div class="barista">
 
-      <div class="avatar">👩‍🍳</div>
+    <div class="avatar">👩‍🍳</div>
 
-      <div class="speaker">
-        BARISTA
-      </div>
-
-      <div class="question">
-        Buongiorno! Cosa desidera?
-      </div>
-
+    <div class="speaker">
+      BARISTA
     </div>
 
-    <div class="status" id="status">
-      Tocca il pulsante e parla.
+    <div class="question" id="openingQuestion">
+      Buongiorno! Cosa desidera?
     </div>
 
-    <button class="button" id="speakButton">
-      🎙️ PARLA
+    <button class="button listenButton" onclick="speakText('Buongiorno! Cosa desidera?')">
+      🔊 ASCOLTA
     </button>
-
-    <div class="you" id="youBox">
-      <div class="you-title">🗣️ HAI DETTO:</div>
-      <div id="transcript"></div>
-    </div>
-
-    <div class="help" id="helpBox">
-      💡 <strong>Puoi dire:</strong><br><br>
-      «Vorrei un caffè, per favore.»
-    </div>
-
-    <button class="button" id="helpButton">
-      🆘 AIUTO
-    </button>
-
-    <div class="next" id="nextBox">
-
-      <div class="next-title">
-        👩‍🍳 BARISTA
-      </div>
-
-      <div id="nextQuestion">
-        Va bene! Ecco il suo caffè. Desidera anche qualcosa da mangiare?
-      </div>
-
-    </div>
-
-    <div class="small">
-      Non preoccuparti degli errori 😊<br>
-      Prova a parlare!
-    </div>
 
   </div>
 
+  <div class="status" id="status">
+    Tocca il pulsante e parla.
+  </div>
+
+  <button class="button" id="speakButton">
+    🎙️ PARLA
+  </button>
+
+  <div class="you" id="youBox">
+
+    <div class="you-title">
+      🗣️ HAI DETTO:
+    </div>
+
+    <div id="transcript"></div>
+
+  </div>
+
+  <div class="help" id="helpBox">
+
+    💡 <strong>Puoi dire:</strong><br><br>
+    «Vorrei un caffè, per favore.»
+
+    <button
+      class="button listenButton"
+      onclick="speakText('Vorrei un caffè, per favore.')">
+      🔊 ASCOLTA LA FRASE
+    </button>
+
+  </div>
+
+  <button class="button" id="helpButton">
+    🆘 AIUTO
+  </button>
+
+  <div class="next" id="nextBox">
+
+    <div class="next-title">
+      👩‍🍳 BARISTA
+    </div>
+
+    <div id="nextQuestion">
+      Va bene! Ecco il suo caffè. Desidera anche qualcosa da mangiare?
+    </div>
+
+    <button
+      class="button listenButton"
+      onclick="speakText('Va bene! Ecco il suo caffè. Desidera anche qualcosa da mangiare?')">
+      🔊 ASCOLTA
+    </button>
+
+  </div>
+
+  <div class="small">
+    Non preoccuparti degli errori 😊<br>
+    Prova a parlare!
+  </div>
+
+</div>
+
 <script>
+
+  /*
+   * SINTESI VOCALE
+   * Fa leggere al telefono le frasi in italiano.
+   */
+
+  function speakText(text) {
+
+    if (!('speechSynthesis' in window)) {
+
+      alert("La sintesi vocale non è disponibile su questo dispositivo.");
+
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.lang = "it-IT";
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+
+  /*
+   * RICONOSCIMENTO VOCALE
+   */
 
   const speakButton = document.getElementById("speakButton");
   const status = document.getElementById("status");
@@ -237,6 +298,7 @@
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
+
 
   if (!SpeechRecognition) {
 
@@ -264,9 +326,14 @@
 
       speakButton.innerHTML = "🔴 STO ASCOLTANDO";
 
-      recognition.start();
+      try {
+        recognition.start();
+      } catch (error) {
+        console.log(error);
+      }
 
     });
+
 
     recognition.onresult = (event) => {
 
@@ -285,21 +352,45 @@
 
     };
 
+
     recognition.onerror = (event) => {
 
-      status.innerHTML =
-        "❌ Non ho sentito. Prova ancora.";
+      console.log("Errore riconoscimento:", event.error);
+
+      if (event.error === "not-allowed") {
+
+        status.innerHTML =
+          "⚠️ Permesso microfono non disponibile.";
+
+      } else if (event.error === "no-speech") {
+
+        status.innerHTML =
+          "👂 Non ho sentito. Prova a parlare più vicino al telefono.";
+
+      } else {
+
+        status.innerHTML =
+          "❌ Non ho sentito. Prova ancora.";
+
+      }
 
       speakButton.innerHTML = "🎙️ PARLA";
 
     };
+
 
     recognition.onend = () => {
 
       speakButton.innerHTML = "🎙️ PARLA";
 
     };
+
   }
+
+
+  /*
+   * PULSANTE AIUTO
+   */
 
   helpButton.addEventListener("click", () => {
 
