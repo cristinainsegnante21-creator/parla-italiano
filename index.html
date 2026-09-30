@@ -961,7 +961,18 @@ nextButton.addEventListener("click", function() {
 
 });
 
+/* ==================================================
+   AVVIO AUTOMATICO DELLA VOCE DEL BARISTA
+================================================== */
 
+window.addEventListener("load", function() {
+
+  setTimeout(function() {
+    speakText(currentBaristaSpeech);
+  }, 500);
+
+});
+  
 </script>
 
 </body>
