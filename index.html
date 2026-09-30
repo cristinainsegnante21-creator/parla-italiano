@@ -509,14 +509,16 @@ if (!SpeechRecognition) {
       studentBox.style.display =
         "block";
 
+      speakButton.innerHTML =
+      "🎙️ PARLA DI NUOVO";
+
       status.innerHTML =
         "✅ Hai parlato!";
 
-      /*
-       * Il barista analizza
-       * quello che ha detto
-       * lo studente.
-       */
+     /*
+     * Lo studente ha parlato.
+     * Ora analizziamo la risposta.
+     */
 
       analyseResponse(text);
 
@@ -580,6 +582,17 @@ if (!SpeechRecognition) {
 
 function analyseResponse(text) {
 
+   /*
+   * Quando il barista risponde,
+   * l'aiuto deve essere nascosto.
+   */
+
+  helpButton.style.display =
+    "none";
+
+  helpBox.style.display =
+    "none";
+      
   const lower =
     text.toLowerCase();
 
