@@ -856,35 +856,46 @@ if (!SpeechRecognition) {
      ERRORI
   ---------------------------------------------- */
 
-  recognition.onerror = function(event) {
+recognition.onerror = function(event) {
 
-    console.log(event.error);
+  console.log(event.error);
 
+  if (event.error === "not-allowed") {
 
-    if (event.error === "not-allowed") {
+    statusBox.innerText =
+      "⚠️ Devi permettere l'accesso al microfono.";
 
-      statusBox.innerText =
-        "⚠️ Devi permettere l'accesso al microfono.";
+    speakButton.disabled = false;
+    return;
+  }
 
-    }
+  else if (
+    event.error === "no-speech" ||
+    event.error === "audio-capture" ||
+    event.error === "network"
+  ) {
 
-    else if (event.error === "no-speech") {
+    statusBox.innerText =
+      "🤔 Non ho capito. Puoi ripetere, per favore?";
 
-      statusBox.innerText =
-        "Non ho sentito. Prova a parlare di nuovo.";
+    speakButton.disabled = false;
 
-    }
+    setTimeout(function() {
+      speakButton.click();
+    }, 800);
 
-    else {
+    return;
+  }
 
-      statusBox.innerText =
-        "Si è verificato un problema. Prova ancora.";
+  else {
 
-    }
+    statusBox.innerText =
+      "Si è verificato un problema. Prova ancora.";
 
+  }
 
-    speakButton.disabled =
-      false;
+  speakButton.disabled =
+    false;
 
     studentBox.classList.add("ready");
 
