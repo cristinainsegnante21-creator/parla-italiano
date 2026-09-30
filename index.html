@@ -830,12 +830,13 @@ if (!SpeechRecognition) {
 
     const text =
       event.results[0][0].transcript.trim();
-
+    
+    console.log("Trascrizione:", text)
 
     if (text === "") {
 
       statusBox.innerText =
-        "Non ho sentito. Prova ancora.";
+         "🤔 Non ho capito. Puoi ripetere, per favore?";
 
       speakButton.disabled =
         false;
