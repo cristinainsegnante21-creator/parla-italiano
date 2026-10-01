@@ -685,7 +685,23 @@ async function processStudentMessage(text) {
    */
 
   const reply =
-    await askBarista(text);
+  await askBarista(text);
+
+if (!reply) {
+
+  statusBox.innerText =
+    "⚠️ Non riesco a collegarmi al barista. Prova ancora.";
+
+  speakButton.disabled =
+    false;
+
+  listenButton.disabled =
+    false;
+
+  studentBox.classList.add("ready");
+
+  return;
+}
 
 const didNotUnderstand =
   reply.toLowerCase().includes("non ho capito");
@@ -693,6 +709,11 @@ const didNotUnderstand =
 if (didNotUnderstand) {
 
   attemptCount++;
+
+  console.log(
+    "Tentativi non capiti:",
+    attemptCount
+  );
 
   if (attemptCount >= 2) {
 
@@ -708,7 +729,6 @@ if (didNotUnderstand) {
   helpButton.style.display =
     "none";
 }
-
   /*
    * Se qualcosa è andato storto.
    */
