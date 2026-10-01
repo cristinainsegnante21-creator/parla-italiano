@@ -919,7 +919,11 @@ recognition.onerror = function(event) {
     speakButton.disabled = false;
 
     statusBox.innerText =
-      "🤔 Non ho capito. Puoi ripetere, per favore?";
+      "🤔 Mi scusi, non ho capito. Può ripetere, per favore?";
+
+    speakText(
+      "Mi scusi, non ho capito. Può ripetere, per favore?"
+    );
 
     studentBox.classList.add("ready");
 
