@@ -908,13 +908,24 @@ recognition.onerror = function(event) {
   ---------------------------------------------- */
 
   recognition.onend = function() {
+  /*
+   * Il riconoscimento vocale è terminato.
+   * Se non abbiamo ricevuto un risultato,
+   * rendiamo nuovamente disponibile il pulsante.
+   */
 
-    /*
-     * Non riattiviamo automaticamente il pulsante
-     * se l'AI sta ancora preparando la risposta.
-     */
+  if (speakButton.disabled) {
 
-  };
+    speakButton.disabled = false;
+
+    statusBox.innerText =
+      "🤔 Non ho capito. Puoi ripetere, per favore?";
+
+    studentBox.classList.add("ready");
+
+  }
+
+};
 
 
   /* ----------------------------------------------
