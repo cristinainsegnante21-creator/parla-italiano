@@ -428,8 +428,9 @@ let conversationHistory = [
 
 
 /* ==================================================
-    SINTESI VOCALE
-=====================================================
+   SINTESI VOCALE
+================================================== */
+
 function speakText(text) {
 
   if (!("speechSynthesis" in window)) {
@@ -453,6 +454,8 @@ function speakText(text) {
 
   window.speechSynthesis.speak(utterance);
 }
+
+
 /* ==================================================
    ASCOLTA IL BARISTA
 ================================================== */
