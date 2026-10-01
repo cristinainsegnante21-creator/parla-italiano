@@ -400,6 +400,13 @@ const nextButton =
 const helpButton =
   document.getElementById("helpButton");
 
+  helpButton.addEventListener("click", function() {
+
+  statusBox.innerText =
+    "💡 Puoi dire: ";
+
+});
+
 const statusBox =
   document.getElementById("status");
 
@@ -423,6 +430,8 @@ const finishedBox =
 const totalTurns = 5;
 
 let currentTurn = 0;
+
+let attemptCount = 0;
 
 let currentBaristaSpeech =
   "Buongiorno! Cosa desidera?";
@@ -678,6 +687,27 @@ async function processStudentMessage(text) {
   const reply =
     await askBarista(text);
 
+const didNotUnderstand =
+  reply.toLowerCase().includes("non ho capito");
+
+if (didNotUnderstand) {
+
+  attemptCount++;
+
+  if (attemptCount >= 2) {
+
+    helpButton.style.display =
+      "inline-block";
+
+  }
+
+} else {
+
+  attemptCount = 0;
+
+  helpButton.style.display =
+    "none";
+}
 
   /*
    * Se qualcosa è andato storto.
@@ -832,7 +862,7 @@ if (!SpeechRecognition) {
       "none";
 
     helpButton.style.display =
-    "inline-block";
+    "none";
 
     studentBox.classList.remove("ready");
 
@@ -847,7 +877,7 @@ if (!SpeechRecognition) {
 
     const text =
       event.results[0][0].transcript.trim();
-    
+
     console.log("Trascrizione:", text)
 
     if (text === "") {
