@@ -400,10 +400,110 @@ const nextButton =
 const helpButton =
   document.getElementById("helpButton");
 
-  helpButton.addEventListener("click", function() {
+ helpButton.addEventListener("click", async function() {
 
   statusBox.innerText =
-    "💡 Puoi dire: ";
+    "💡 Sto preparando un suggerimento...";
+
+  helpButton.disabled =
+    true;
+
+  let context = "";
+
+  conversationHistory.forEach(function(item) {
+
+    if (item.role === "assistant") {
+
+      context +=
+        "BARISTA: " +
+        item.content +
+        "\n";
+
+    } else {
+
+      context +=
+        "STUDENTE: " +
+        item.content +
+        "\n";
+
+    }
+
+  });
+
+  try {
+
+    const response =
+      await fetch(WORKER_URL, {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          message:
+            "Scenario: lo studente sta parlando con un barista italiano.\n\n" +
+            "Conversazione:\n" +
+            context +
+            "\n\n" +
+            "Lo studente è in difficoltà e ha bisogno di aiuto. " +
+            "Suggerisci UNA sola frase breve e naturale che lo studente può dire ADESSO al barista. " +
+            "La frase deve essere semplice, in prima persona e pronta da pronunciare. " +
+            "Deve essere coerente con la conversazione. " +
+            "Non spiegare la grammatica. " +
+            "Non usare virgolette, asterischi o etichette. " +
+            "Rispondi solo con la frase che lo studente può dire."
+
+        })
+
+      });
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Errore HTTP: " +
+        response.status
+      );
+
+    }
+
+    let suggestion =
+      await response.text();
+
+    suggestion =
+      suggestion
+        .replace(/\*\*/g, "")
+        .replace(/\*/g, "")
+        .trim();
+
+    feedbackText.innerText =
+      "💡 Puoi dire: " +
+      suggestion;
+
+    feedbackBox.style.display =
+      "block";
+
+    statusBox.innerText =
+      "💡 Puoi dire:";
+
+    speakText(suggestion);
+
+    helpButton.disabled =
+      false;
+
+  } catch (error) {
+
+    console.error(error);
+
+    statusBox.innerText =
+      "⚠️ Non riesco a preparare il suggerimento.";
+
+    helpButton.disabled =
+      false;
+
+  }
 
 });
 
@@ -710,7 +810,6 @@ if (didNotUnderstand) {
 
   attemptCount++;
   
-  alert("Tentativi non capiti: " + attemptCount);
   
   console.log(
     "Tentativi non capiti:",
