@@ -1070,31 +1070,17 @@ recognition.onerror = function(event) {
      FINE ASCOLTO
   ---------------------------------------------- */
 
-  recognition.onend = function() {
-  /*
-   * Il riconoscimento vocale è terminato.
-   * Se non abbiamo ricevuto un risultato,
-   * rendiamo nuovamente disponibile il pulsante.
-   */
+ recognition.onend = function() {
 
   if (speakButton.disabled) {
 
     speakButton.disabled = false;
-
-    statusBox.innerText =
-      "🤔 Mi scusi, non ho capito. Può ripetere, per favore?";
-
-    speakText(
-      "Mi scusi, non ho capito. Può ripetere, per favore?"
-    );
 
     studentBox.classList.add("ready");
 
   }
 
 };
-
-
   /* ----------------------------------------------
      PULSANTE PARLA
   ---------------------------------------------- */
